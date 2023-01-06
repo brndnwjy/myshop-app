@@ -21,12 +21,22 @@ const Navbar = () => {
 
       <div className={styles.searchbar}>
         <input type="text" placeholder="Search product..." />
-        <button className={styles['search-btn']}>Search</button>
+        <button className={styles["search-btn"]}>Search</button>
       </div>
 
-      <div className={styles['btn-group']}>
-        <button className={styles['cart-btn']}>Cart</button>
-        <button className={styles['profile-btn']} onClick={() => setPopup(true)}>Profile</button>
+      <div className={styles["btn-group"]}>
+        <button
+          className={styles["cart-btn"]}
+          onClick={() => navigate("/cart")}
+        >
+          Cart
+        </button>
+        <button
+          className={styles["profile-btn"]}
+          onClick={() => setPopup(true)}
+        >
+          Profile
+        </button>
 
         {popup && (
           <ClickAwayListener onClickAway={() => setPopup(false)}>
