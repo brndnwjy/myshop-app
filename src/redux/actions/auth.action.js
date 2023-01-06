@@ -98,6 +98,7 @@ export const loginWithEmail = (form, navigate) => async (dispatch) => {
     const token = result.user.accessToken;
 
     localStorage.setItem("token", token);
+    localStorage.setItem("uid", user.uid);
     localStorage.setItem("user", JSON.stringify(user));
 
     swal({
@@ -132,16 +133,17 @@ export const loginWithGoogle = (navigate) => async (dispatch) => {
 
     const result = await signInWithPopup(auth, provider);
 
+    console.log(result.user)
+
     const user = {
       uid: result.user.uid,
       email: result.user.email,
       name: result.user.displayName,
     };
-
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
+    const token = result.user.accessToken;
 
     localStorage.setItem("token", token);
+    localStorage.setItem("uid", user.uid);
     localStorage.setItem("user", JSON.stringify(user));
 
     swal({
