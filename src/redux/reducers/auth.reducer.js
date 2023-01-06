@@ -8,6 +8,8 @@ import {
   GOOGLE_LOGIN_PENDING,
   GOOGLE_LOGIN_SUCCESS,
   GOOGLE_LOGIN_ERROR,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR,
 } from "../types";
 
 const initialState = {
@@ -72,6 +74,15 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
+
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        user: [],
+      };
+
+    case LOGOUT_ERROR:
+      return state;
 
     default:
       return state;

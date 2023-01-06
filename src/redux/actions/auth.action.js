@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  signOut,
 } from "firebase/auth";
 import {
   EMAIL_REGISTER_PENDING,
@@ -17,6 +18,8 @@ import {
   GOOGLE_LOGIN_PENDING,
   GOOGLE_LOGIN_SUCCESS,
   GOOGLE_LOGIN_ERROR,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR,
 } from "../types";
 
 const auth = getAuth(app);
@@ -62,7 +65,7 @@ export const registerWithEmail = (form, navigate) => async (dispatch) => {
     swal({
       title: "Register failed",
       text: `Make sure your data is correct!`,
-      icon: "warning",
+      icon: "error",
     });
 
     dispatch({ type: EMAIL_REGISTER_ERROR });
@@ -100,7 +103,7 @@ export const loginWithEmail = (form, navigate) => async (dispatch) => {
     swal({
       title: "Login success",
       text: `Welcome, ${user.name}`,
-      icon: "warning",
+      icon: "success",
     });
 
     dispatch({ type: EMAIL_LOGIN_SUCCESS, payload: result.user });
@@ -112,9 +115,9 @@ export const loginWithEmail = (form, navigate) => async (dispatch) => {
     console.log(errorCode, errorMessage);
 
     swal({
-      title: "Register failed",
+      title: "Login failed",
       text: `Make sure your data is correct!`,
-      icon: "warning",
+      icon: "error",
     });
 
     dispatch({ type: EMAIL_LOGIN_ERROR });
@@ -144,7 +147,7 @@ export const loginWithGoogle = (navigate) => async (dispatch) => {
     swal({
       title: "Login success",
       text: `Welcome, ${user.name}`,
-      icon: "warning",
+      icon: "success",
     });
 
     dispatch({ type: GOOGLE_LOGIN_SUCCESS, paylod: result.user });
@@ -157,10 +160,44 @@ export const loginWithGoogle = (navigate) => async (dispatch) => {
 
     swal({
       title: "Register failed",
-      text: `Make sure your data is correct!`,
-      icon: "warning",
+      icon: "error",
     });
 
     dispatch({ type: GOOGLE_LOGIN_ERROR });
+  }
+};
+
+export const logout = (navigate) => (dispatch) => {
+  try {
+    swal({
+      title: "Logging Out",
+      text: `Are you sure want to leave?`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (confirm) => {
+      if (confirm) {
+        await signOut(auth);
+        localStorage.clear();
+        swal({
+          title: "Logged Out",
+          text: `You have been logged out`,
+          icon: "success",
+        });
+        dispatch({ type: LOGOUT_SUCCESS });
+        navigate("/login");
+      }
+    });
+  } catch (err) {
+    const errorCode = err.code;
+    const errorMessage = err.message;
+    console.log(errorCode, errorMessage);
+
+    swal({
+      title: "Log out failed",
+      icon: "error",
+    });
+
+    dispatch({ type: LOGOUT_ERROR });
   }
 };
