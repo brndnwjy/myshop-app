@@ -1,0 +1,25 @@
+.main {
+  margin-top: 80px;
+  background-color: cadetblue;
+  padding: 10px 5%;
+}
+
+.table {
+  background-color: chartreuse;
+  text-align: center;
+  width: 100%;
+}
+
+.table,
+.table td,
+.table th {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.table thead,
+.table th:nth-of-type(even),
+.table tr:nth-of-type(even){
+    color: chartreuse;
+    background-color: white;
+}
