@@ -1,17 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import app from "../../../firebase";
 import {
-  getAuth,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-} from "firebase/auth";
+  loginWithEmail,
+  loginWithGoogle,
+} from "../../../redux/actions/auth.action";
+
+import styles from "../auth.module.css";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
+
+  const { isLoading } = useSelector((state) => state.auth);
 
   const [form, setForm] = useState({
     email: "",
@@ -19,56 +20,24 @@ const Login = () => {
   });
 
   const handleEmailLogin = () => {
-    signInWithEmailAndPassword(auth, form.email, form.password)
-      .then((res) => {
-        const user = {
-          uid: res.user.uid,
-          email: res.user.email,
-          name: res.user.displayName,
-        };
-        const token = res.user.accessToken;
-        localStorage.setItem("token", token);
-        alert(`Welcome, ${user.name}`);
-        navigate("/product");
-      })
-      .catch((err) => {
-        const errorCode = err.code;
-        const errorMessage = err.message;
-        console.log(errorCode, errorMessage);
-        alert(errorMessage);
-      });
+    dispatch(loginWithEmail(form, navigate));
   };
 
   const handleGoogleLogin = () => {
-    signInWithPopup(auth, provider)
-      .then((res) => {
-        const credential = GoogleAuthProvider.credentialFromResult(res);
-        const token = credential.accessToken;
-        console.log(token);
-        const user = {
-          id: res.user.uid,
-          email: res.user.email,
-          name: res.user.displayName,
-        };
-
-        localStorage.setItem("token", token);
-        alert(`Welcome, ${user.name}`);
-        navigate("/product");
-      })
-      .catch((err) => {
-        const errorCode = err.code;
-        const errorMessage = err.message;
-        const credential = GoogleAuthProvider.credentialFromError(err);
-        console.log(errorCode, errorMessage, credential);
-        alert(errorMessage);
-      });
+    dispatch(loginWithGoogle(navigate));
   };
 
   return (
     <main>
       <h1>Login Page</h1>
 
-      <button onClick={() => handleGoogleLogin()}>Google</button>
+      <button
+        type="button"
+        onClick={() => handleGoogleLogin()}
+        disabled={isLoading}
+      >
+        {isLoading ? "Logging In" : "Google"}
+      </button>
       <hr />
       <input
         type="email"
@@ -82,7 +51,13 @@ const Login = () => {
         onChange={(e) => setForm({ ...form, password: e.target.value })}
         value={form.password}
       />
-      <button onClick={() => handleEmailLogin()}>Log In</button>
+      <button
+        type="button"
+        onClick={() => handleEmailLogin()}
+        disabled={isLoading}
+      >
+        {isLoading ? "Logging In" : "Log In"}
+      </button>
     </main>
   );
 };
