@@ -133,7 +133,7 @@ export const loginWithGoogle = (navigate) => async (dispatch) => {
 
     const result = await signInWithPopup(auth, provider);
 
-    console.log(result.user)
+    console.log(result.user);
 
     const user = {
       uid: result.user.uid,
