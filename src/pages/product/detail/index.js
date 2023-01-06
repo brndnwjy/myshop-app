@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Navbar from "../../../components/module/navbar";
+import { insertCart } from "../../../redux/actions/cart.action";
 import { getDetail } from "../../../redux/actions/product.action";
+
 import styles from "./detail.module.css";
 
 const Detail = () => {
@@ -39,16 +40,7 @@ const Detail = () => {
   }, []);
 
   const handleAddCart = () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/cart`, form, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(insertCart(form, token));
   };
 
   return (
