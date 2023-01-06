@@ -6,76 +6,78 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: aqua;
+  background-color: #fefefe;
 }
 
-.navbar h1 {
+.navbar > img {
+  width: 150px;
   padding-left: 5%;
-  background-color: violet;
-}
-
-.navbar > div:last-of-type {
-  padding-right: 5%;
-}
-
-.searchbar {
-  background: greenyellow;
-  width: 40%;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  border: 1px solid black;
-  border-radius: 4px;
-}
-
-.searchbar input,
-.searchbar input:focus {
-  width: 80%;
-  height: 100%;
-  background-color: transparent;
-  border: none;
-  padding-left: 10px;
-  outline: none;
-}
-
-.search-btn {
-  height: 24px;
-  width: 20%;
-  background-color: transparent;
-  border: 1px solid black;
-  margin-right: 5px;
-  border-radius: 4px;
+  cursor: pointer;
 }
 
 .btn-group {
-  height: 30px;
-  min-width: max-content;
-  background-color: brown;
+  width: 115px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  width: 10%;
+  justify-content: space-between;
+  margin-right: 5%;
 }
 
-.cart-btn,
-.profile-btn {
-  height: 100%;
-  width: 60px;
-  border: 1px solid black;
-  border-radius: 4px;
+.btn-group img {
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-options {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-options img {
+  margin-right: 10px;
+}
+
+.user-options h4 {
+  color: #1e1e1e;
 }
 
 .popmenu {
-  width: 100px;
   height: max-content;
+  width: 100px;
   position: absolute;
-  top: 60px;
-  right: 5%;
-  background-color: blue;
+  top: 65px;
+  right: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #fefefe;
+  border: none;
+  border-radius: 4px 8px 4px 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-@media only screen and (max-width: 600px) {
-  .search-btn {
-    display: none;
-  }
+.popitem h6 {
+  height: 100%;
+  width: 100px;
+  margin: 12px 0;
+}
+
+.popitem {
+  cursor: pointer;
+}
+
+.popitem:first-of-type {
+  border-radius: 4px 8px 0 0;
+}
+
+.popitem:last-of-type {
+  border-radius: 0 0 4px 8px;
+}
+
+.popitem:hover {
+  background-color: rgba(201, 201, 201, 0.92);
 }

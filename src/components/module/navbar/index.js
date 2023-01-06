@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import ClickAwayListener from "react-click-away-listener";
 import { logout } from "../../../redux/actions/auth.action";
 
+import logo from "../../../assets/myshop-logo.png";
+import cart from "../../../assets/cart.png";
+import user from "../../../assets/user.png";
+
 import styles from "./navbar.module.css";
 
 const Navbar = () => {
@@ -15,28 +19,22 @@ const Navbar = () => {
     dispatch(logout(navigate));
   };
 
+  const { name } = JSON.parse(localStorage.getItem("user"));
+
   return (
     <nav className={styles.navbar}>
-      <h1 onClick={() => navigate("/product")}>Myshop</h1>
-
-      <div className={styles.searchbar}>
-        <input type="text" placeholder="Search product..." />
-        <button className={styles["search-btn"]}>Search</button>
-      </div>
+      <img
+        src={logo}
+        alt={"Myshop logo"}
+        onClick={() => navigate("/product")}
+      />
 
       <div className={styles["btn-group"]}>
-        <button
-          className={styles["cart-btn"]}
-          onClick={() => navigate("/cart")}
-        >
-          Cart
-        </button>
-        <button
-          className={styles["profile-btn"]}
-          onClick={() => setPopup(true)}
-        >
-          Profile
-        </button>
+        <img src={cart} alt={"cart icon"} onClick={() => navigate("/cart")} />
+        <div className={styles["user-options"]} onClick={() => setPopup(true)}>
+          <img src={user} alt={"user icon"} />
+          <h4>{name}</h4>
+        </div>
 
         {popup && (
           <ClickAwayListener onClickAway={() => setPopup(false)}>
