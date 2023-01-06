@@ -1,19 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useEffect, useState } from "react";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../../components/module/navbar";
 
 import styles from "./list.module.css";
 import { useNavigate } from "react-router";
+import { getList } from "../../../redux/actions/product.action";
 
 const List = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState([]);
+  const { list } = useSelector((state) => state.product);
 
   const fetchAPI = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/product`).then((res) => {
-      setProducts(res.data.products);
-    });
+    dispatch(getList());
   };
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const List = () => {
             </tr>
           </thead>
           <tbody>
-            {products?.map((item, index) => (
+            {list?.map((item, index) => (
               <tr key={index}>
                 <td>{item.title}</td>
                 <td>{item.stock}</td>

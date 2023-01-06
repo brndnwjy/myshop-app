@@ -1,23 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Navbar from "../../../components/module/navbar";
+import { getDetail } from "../../../redux/actions/product.action";
 import styles from "./detail.module.css";
 
 const Detail = () => {
+  const dispatch = useDispatch();
+
   const { id } = useParams();
+
+  const { detail } = useSelector((state) => state.product);
 
   const token = localStorage.getItem("token");
   const uid = localStorage.getItem("uid");
 
-  const [product, setProduct] = useState({});
-
   const [form, setForm] = useState({
-    uid: "",
-    title: "",
-    price: 0,
+    uid: uid,
+    title: detail?.title,
+    price: parseInt(detail?.price),
     quantity: 1,
-    description: "",
+    description: detail?.description,
   });
 
   let IDR = new Intl.NumberFormat("en-ID", {
@@ -26,17 +31,7 @@ const Detail = () => {
   });
 
   const fetchAPI = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/product/${id}`).then((res) => {
-      setProduct(res.data.product);
-      setForm({
-        ...form,
-        uid,
-        title: res.data.product.title,
-        price: parseInt(res.data.product.price),
-        quantity: res.data.product.quantity,
-        description: res.data.product.description,
-      });
-    });
+    dispatch(getDetail(id, token));
   };
 
   useEffect(() => {
@@ -61,15 +56,15 @@ const Detail = () => {
       <Navbar />
       <main className={styles.main}>
         <h1>Product Detail Page : {id}</h1>
-        <p>{product?.title}</p>
-        <p>{product?.description}</p>
-        <p>{product?.stock}</p>
-        <p>{IDR.format(product?.price)}</p>
+        <p>{detail?.title}</p>
+        <p>{detail?.description}</p>
+        <p>{detail?.stock}</p>
+        <p>{IDR.format(detail?.price)}</p>
         <input
           type="number"
           value={form.quantity}
           min={1}
-          max={product.stock}
+          max={detail?.stock}
           onChange={(e) => setForm({ ...form, quantity: e.target.value })}
         />
         <button onClick={handleAddCart}>Buy?</button>
