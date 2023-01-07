@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/module/navbar";
@@ -39,6 +40,19 @@ const Cart = () => {
     }
   }
 
+  const handleCheckout = () => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/payment/checkout`, {data: cart})
+      .then((res) => {
+        if (res.data.url) {
+          window.location.href = res.data.url;
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   return (
     <Fragment>
       <Navbar />
@@ -49,24 +63,30 @@ const Cart = () => {
 
         <div className={styles.cart}>
           <div className={styles["cart-item"]}>
-            {cart?.map((item) => (
-              <div className={styles["item-detail"]}>
-                <img src={item.photo} alt={item.title} />
-                <div>
-                  <h2>
-                    {item.title} ({item.quantity})
-                  </h2>
-                  <h2>{IDR.format(item.price)}</h2>
-                  <button
-                    type="button"
-                    className={styles["remove-btn"]}
-                    onClick={() => removeItem(item.id)}
-                  >
-                    Remove
-                  </button>
+            {cart?.length > 0 ? (
+              cart?.map((item) => (
+                <div className={styles["item-detail"]}>
+                  <img src={item.photo} alt={item.title} />
+                  <div>
+                    <h2>
+                      {item.title} ({item.quantity})
+                    </h2>
+                    <h2>{IDR.format(item.price)}</h2>
+                    <button
+                      type="button"
+                      className={styles["remove-btn"]}
+                      onClick={() => removeItem(item.id)}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <h2 className={styles["cart-empty"]}>
+                Add some item to your cart to start shopping
+              </h2>
+            )}
           </div>
 
           <div className={styles.summary}>
@@ -85,22 +105,31 @@ const Cart = () => {
               ))}
             </div>
 
-            <hr />
+            {cart !== null ? (
+              <>
+                <hr />
 
-            <div className={styles["sum-total"]}>
-              <span>Total</span>
-              <span>{IDR.format(sum)}</span>
-            </div>
-
-            {/* <hr />
+                <div className={styles["sum-total"]}>
+                  <span>Total</span>
+                  <span>{IDR.format(sum)}</span>
+                </div>
+              </>
+            ) : (
+              <h3 className={styles["cart-empty"]}>Cart empty</h3>
+            )}
 
             <button
               type="button"
-              className={styles["checkout-btn"]}
-              onClick={false}
+              className={
+                cart?.length < 1
+                  ? `${styles["checkout-btn"]} ${styles.muted}`
+                  : styles["checkout-btn"]
+              }
+              onClick={() => handleCheckout()}
+              disabled={cart?.length < 1}
             >
               Checkout
-            </button> */}
+            </button>
           </div>
         </div>
       </main>

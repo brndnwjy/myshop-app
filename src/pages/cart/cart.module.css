@@ -58,7 +58,7 @@
   width: 400px;
   position: sticky;
   top: 100px;
-  background-color: #fefefe ;
+  background-color: #fefefe;
   border: none;
   border-radius: 8px;
   padding: 10px;
@@ -79,4 +79,29 @@
 .sum-total {
   color: #be0707;
   font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.cart-empty {
+  margin: 10px 0 30px;
+  color: #1e1e1e;
+  font-weight: 500;
+}
+
+.checkout-btn {
+  width: 80%;
+  height: 32px;
+  background-color: #be0707;
+  color: #fefefe;
+  font-size: 18px;
+  font-weight: 400;
+  border: none;
+  border-radius: 20px;
+  margin: 0 10%;
+  cursor: pointer;
+}
+
+.muted {
+  background-color: #505050dd;
+  color: #fefefe;
 }
