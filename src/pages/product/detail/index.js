@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import Navbar from "../../../components/module/navbar";
+import Navbar from "../../../components/navbar";
 import { insertCart } from "../../../redux/actions/cart.action";
 import { getDetail } from "../../../redux/actions/product.action";
 

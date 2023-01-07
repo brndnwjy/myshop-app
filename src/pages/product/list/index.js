@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../../components/module/navbar";
+import Navbar from "../../../components/navbar";
 
 import styles from "./list.module.css";
 import { useNavigate } from "react-router";

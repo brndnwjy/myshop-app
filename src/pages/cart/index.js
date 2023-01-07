@@ -2,9 +2,9 @@
 import axios from "axios";
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../components/module/navbar";
+import Navbar from "../../components/navbar";
 import { getCart, removeCart } from "../../redux/actions/cart.action";
-import trashcan from "../../assets/trash.png"
+import trashcan from "../../assets/trash.png";
 
 import styles from "./cart.module.css";
 
@@ -77,7 +77,7 @@ const Cart = () => {
                       <div>
                         <div>
                           <h2>
-                            {item.title} ({item.quantity})
+                            {item.title}
                           </h2>
                           <h2>{IDR.format(item.price)}</h2>
                         </div>
