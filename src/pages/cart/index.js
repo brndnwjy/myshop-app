@@ -35,7 +35,7 @@ const Cart = () => {
 
   if (cart) {
     for (let item of cart) {
-      sum += item.price;
+      sum += item.price * item.quantity;
     }
   }
 
@@ -43,21 +43,65 @@ const Cart = () => {
     <Fragment>
       <Navbar />
       <main className={styles.main}>
-        <h1>Cart Page</h1>
-        <h3>Total : {IDR.format(sum)}</h3>
-        <div>
-          {cart?.map((item) => (
-            <>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-              <p>{item.quantity}</p>
-              <p>{IDR.format(item.price)}</p>
-              <p>{IDR.format(item.total)}</p>
-              <button type="button" onClick={() => removeItem(item.id)}>
-                cancel
-              </button>
-            </>
-          ))}
+        <h2 className={styles.header}>Cart</h2>
+
+        <hr />
+
+        <div className={styles.cart}>
+          <div className={styles["cart-item"]}>
+            {cart?.map((item) => (
+              <div className={styles["item-detail"]}>
+                <img src={item.photo} alt={item.title} />
+                <div>
+                  <h2>
+                    {item.title} ({item.quantity})
+                  </h2>
+                  <h2>{IDR.format(item.price)}</h2>
+                  <button
+                    type="button"
+                    className={styles["remove-btn"]}
+                    onClick={() => removeItem(item.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.summary}>
+            <h2 className={styles.header}>Shopping summary</h2>
+
+            <hr />
+
+            <div>
+              {cart?.map((item) => (
+                <div className={styles["sum-detail"]}>
+                  <span>
+                    {item.title} x {item.quantity}
+                  </span>
+                  <span>{IDR.format(item.quantity * item.price)}</span>
+                </div>
+              ))}
+            </div>
+
+            <hr />
+
+            <div className={styles["sum-total"]}>
+              <span>Total</span>
+              <span>{IDR.format(sum)}</span>
+            </div>
+
+            {/* <hr />
+
+            <button
+              type="button"
+              className={styles["checkout-btn"]}
+              onClick={false}
+            >
+              Checkout
+            </button> */}
+          </div>
         </div>
       </main>
     </Fragment>
