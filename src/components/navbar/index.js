@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ClickAwayListener from "react-click-away-listener";
-import { logout } from "../../../redux/actions/auth.action";
+import { logout } from "../../redux/actions/auth.action";
 
-import logo from "../../../assets/myshop-logo.png";
-import cart from "../../../assets/cart.png";
-import user from "../../../assets/user.png";
+import logo from "../../assets/myshop-logo.png";
+import cart from "../../assets/cart.png";
+import user from "../../assets/user.png";
 
 import styles from "./navbar.module.css";
 
@@ -41,11 +41,11 @@ const Navbar = () => {
             <div className={styles.popmenu}>
               <div
                 onClick={() => {
-                  navigate("/profile");
+                  navigate("/history");
                 }}
                 className={styles.popitem}
               >
-                <h6>Profile</h6>
+                <h6>History</h6>
               </div>
 
               <div onClick={handleLogout} className={styles.popitem}>
