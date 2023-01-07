@@ -1,8 +1,8 @@
-import axios from "axios";
 import swal from "sweetalert";
 import app from "../../firebase";
 import {
   getAuth,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
@@ -44,10 +44,7 @@ export const registerWithEmail = (form, navigate) => async (dispatch) => {
 
     dispatch({ type: EMAIL_REGISTER_PENDING });
 
-    await axios.post(
-      `${process.env.REACT_APP_API_URL}/user/firebase-register`,
-      form
-    );
+    await createUserWithEmailAndPassword(auth, form.email, form.password);
 
     swal({
       title: "Register success",
