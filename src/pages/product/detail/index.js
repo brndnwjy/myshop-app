@@ -24,6 +24,7 @@ const Detail = () => {
     price: parseInt(detail?.price),
     quantity: 1,
     description: detail?.description,
+    photo: detail?.photo,
   });
 
   let IDR = new Intl.NumberFormat("en-ID", {
