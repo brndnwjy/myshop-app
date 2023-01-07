@@ -6,6 +6,7 @@ import List from "../pages/product/list";
 import Detail from "../pages/product/detail";
 import Cart from "../pages/cart";
 import Profile from "../pages/profile";
+import ThankYouPage from "../pages/thankyouPage";
 
 const Router = () => {
   return (
@@ -18,6 +19,7 @@ const Router = () => {
         <Route path="/product/:id" element={<Detail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/thankyoupage" element={<ThankYouPage />} />
       </Routes>
     </BrowserRouter>
   );
