@@ -90,7 +90,7 @@ export const loginWithEmail = (form, navigate) => async (dispatch) => {
     const user = {
       uid: result.user.uid,
       email: result.user.email,
-      name: result.user.displayName,
+      name: result.user.email.split("@")[0],
     };
     const token = result.user.accessToken;
 
