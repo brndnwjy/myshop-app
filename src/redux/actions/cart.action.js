@@ -12,12 +12,15 @@ import {
   REMOVE_CART_SUCCESS,
 } from "../types";
 
-export const getCart = (uid) => async (dispatch) => {
+export const getCart = (uid, token) => async (dispatch) => {
   try {
     dispatch({ type: GET_CART_PENDING });
 
     const result = await axios.get(
-      `${process.env.REACT_APP_API_URL}/cart/${uid}`
+      `${process.env.REACT_APP_API_URL}/cart/${uid}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
 
     console.log(result);

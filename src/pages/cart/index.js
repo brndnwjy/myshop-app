@@ -16,7 +16,7 @@ const Cart = () => {
   const uid = localStorage.getItem("uid");
 
   const fetchAPI = () => {
-    dispatch(getCart(uid));
+    dispatch(getCart(uid, token));
   };
 
   useEffect(() => {
@@ -32,17 +32,21 @@ const Cart = () => {
     currency: "IDR",
   });
 
+  let total = 0;
   let sum = 0;
 
   if (cart) {
     for (let item of cart) {
-      sum += item.price * item.quantity;
+      if (item.status === 0) {
+        total += 1
+        sum += item.price * item.quantity;
+      }
     }
   }
 
   const handleCheckout = () => {
     axios
-      .post(`${process.env.REACT_APP_API_URL}/payment/checkout`, {data: cart})
+      .post(`${process.env.REACT_APP_API_URL}/payment/checkout`, { data: cart })
       .then((res) => {
         if (res.data.url) {
           window.location.href = res.data.url;
@@ -63,25 +67,29 @@ const Cart = () => {
 
         <div className={styles.cart}>
           <div className={styles["cart-item"]}>
-            {cart?.length > 0 ? (
-              cart?.map((item) => (
-                <div className={styles["item-detail"]}>
-                  <img src={item.photo} alt={item.title} />
-                  <div>
-                    <h2>
-                      {item.title} ({item.quantity})
-                    </h2>
-                    <h2>{IDR.format(item.price)}</h2>
-                    <button
-                      type="button"
-                      className={styles["remove-btn"]}
-                      onClick={() => removeItem(item.id)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              ))
+            {total > 0 ? (
+              cart?.map((item) => {
+                return (
+                  item.status === 0 && (
+                    <div className={styles["item-detail"]}>
+                      <img src={item.photo} alt={item.title} />
+                      <div>
+                        <h2>
+                          {item.title} ({item.quantity})
+                        </h2>
+                        <h2>{IDR.format(item.price)}</h2>
+                        <button
+                          type="button"
+                          className={styles["remove-btn"]}
+                          onClick={() => removeItem(item.id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  )
+                );
+              })
             ) : (
               <h2 className={styles["cart-empty"]}>
                 Add some item to your cart to start shopping
@@ -95,17 +103,21 @@ const Cart = () => {
             <hr />
 
             <div>
-              {cart?.map((item) => (
-                <div className={styles["sum-detail"]}>
-                  <span>
-                    {item.title} x {item.quantity}
-                  </span>
-                  <span>{IDR.format(item.quantity * item.price)}</span>
-                </div>
-              ))}
+              {cart?.map((item) => {
+                return (
+                  item.status === 0 && (
+                    <div className={styles["sum-detail"]}>
+                      <span>
+                        {item.title} x {item.quantity}
+                      </span>
+                      <span>{IDR.format(item.quantity * item.price)}</span>
+                    </div>
+                  )
+                );
+              })}
             </div>
 
-            {cart !== null ? (
+            {total > 0 ? (
               <>
                 <hr />
 
@@ -121,12 +133,12 @@ const Cart = () => {
             <button
               type="button"
               className={
-                cart?.length < 1
+                total < 1
                   ? `${styles["checkout-btn"]} ${styles.muted}`
                   : styles["checkout-btn"]
               }
               onClick={() => handleCheckout()}
-              disabled={cart?.length < 1}
+              disabled={total < 1}
             >
               Checkout
             </button>
