@@ -8,15 +8,19 @@
 }
 
 .main img {
-  width: 500px;
+  width: 400px;
 }
 
 .main h1 {
   color: #1e1e1e;
 }
 
+.main div {
+  display:flex;
+}
+
 .main button {
-  width: 300px;
+  width: 250px;
   height: 36px;
   background-color: #be0707;
   color: #fefefe;
@@ -24,5 +28,6 @@
   font-weight: 500;
   border: none;
   border-radius: 20px;
+  margin: 0 10px;
   cursor: pointer;
 }

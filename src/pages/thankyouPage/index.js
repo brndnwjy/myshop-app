@@ -49,7 +49,10 @@ const ThankYouPage = () => {
     <main className={styles.main}>
       <img src={thankyou} alt={"thank you banner"} />
       <h1>Thank you for your purchase!</h1>
-      <button onClick={() => navigate("/profile")}>Back to your profile</button>
+      <div>
+        <button onClick={() => navigate("/history")}>See your history</button>
+        <button onClick={() => navigate("/product")}>Buy another product</button>
+      </div>
     </main>
   );
 };
