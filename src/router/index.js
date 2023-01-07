@@ -5,7 +5,7 @@ import Login from "../pages/auth/login";
 import List from "../pages/product/list";
 import Detail from "../pages/product/detail";
 import Cart from "../pages/cart";
-import Profile from "../pages/profile";
+import History from "../pages/history";
 import ThankYouPage from "../pages/thankyouPage";
 
 const Router = () => {
@@ -18,7 +18,7 @@ const Router = () => {
         <Route path="/product" element={<List />} />
         <Route path="/product/:id" element={<Detail />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/history" element={<History />} />
         <Route path="/thankyoupage" element={<ThankYouPage />} />
       </Routes>
     </BrowserRouter>
