@@ -100,7 +100,10 @@ export const removeCart = (id, uid, token) => async (dispatch) => {
     });
 
     const result = await axios.get(
-      `${process.env.REACT_APP_API_URL}/cart/${uid}`
+      `${process.env.REACT_APP_API_URL}/cart/${uid}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
 
     const { msg } = result.data;

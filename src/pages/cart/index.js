@@ -4,6 +4,7 @@ import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/module/navbar";
 import { getCart, removeCart } from "../../redux/actions/cart.action";
+import trashcan from "../../assets/trash.png"
 
 import styles from "./cart.module.css";
 
@@ -38,7 +39,7 @@ const Cart = () => {
   if (cart) {
     for (let item of cart) {
       if (item.status === 0) {
-        total += 1
+        total += 1;
         sum += item.price * item.quantity;
       }
     }
@@ -74,16 +75,18 @@ const Cart = () => {
                     <div className={styles["item-detail"]}>
                       <img src={item.photo} alt={item.title} />
                       <div>
-                        <h2>
-                          {item.title} ({item.quantity})
-                        </h2>
-                        <h2>{IDR.format(item.price)}</h2>
+                        <div>
+                          <h2>
+                            {item.title} ({item.quantity})
+                          </h2>
+                          <h2>{IDR.format(item.price)}</h2>
+                        </div>
                         <button
                           type="button"
                           className={styles["remove-btn"]}
                           onClick={() => removeItem(item.id)}
                         >
-                          Remove
+                          <img src={trashcan} alt={"remove icon"} />
                         </button>
                       </div>
                     </div>

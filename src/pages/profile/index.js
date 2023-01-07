@@ -12,9 +12,10 @@ const Profile = () => {
   const { cart } = useSelector((state) => state.cart);
 
   const uid = localStorage.getItem("uid");
+  const token = localStorage.getItem("token");
 
   const fetchAPI = () => {
-    dispatch(getCart(uid));
+    dispatch(getCart(uid, token));
   };
 
   useEffect(() => {
