@@ -13,6 +13,11 @@ const List = () => {
 
   const { list } = useSelector((state) => state.product);
 
+  let IDR = new Intl.NumberFormat("en-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
+
   const fetchAPI = () => {
     dispatch(getList());
   };
@@ -25,26 +30,50 @@ const List = () => {
     <Fragment>
       <Navbar />
       <main className={styles.main}>
-        <h1>Product Page</h1>
+        <div className={styles.header}>
+          <h2>Product List</h2>
 
-        <table className={styles.table}>
+          <div className={styles.searchbar}>
+            <input type="text" placeholder="Search product..." />
+            <button className={styles["search-btn"]}>Search</button>
+          </div>
+        </div>
+
+        <hr />
+
+        <table className={styles.table} width={"100%"}>
           <thead>
             <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Stock</th>
-              <th scope="col">Price</th>
-              <th scope="col">Action</th>
+              <th scope="col" width={"40%"}>
+                Title
+              </th>
+              <th scope="col" width={"20%"}>
+                Stock
+              </th>
+              <th scope="col" width={"20%"}>
+                Price
+              </th>
+              <th scope="col" width={"20%"}>
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
             {list?.map((item, index) => (
               <tr key={index}>
-                <td>{item.title}</td>
-                <td>{item.stock}</td>
-                <td>{item.price}</td>
+                <td className={styles.title}>
+                  <img src={item?.photo} alt={item.title} />
+                  <span>{item.title}</span>
+                </td>
+                <td>{item.stock} pcs</td>
+                <td>{IDR.format(item.price)}</td>
                 <td>
-                  <button onClick={() => navigate(`/product/${item.id}`)}>
-                    Buy?
+                  <button
+                    type="button"
+                    className={styles["detail-btn"]}
+                    onClick={() => navigate(`/product/${item.id}`)}
+                  >
+                    See Detail
                   </button>
                 </td>
               </tr>
