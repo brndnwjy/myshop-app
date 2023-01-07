@@ -39,6 +39,20 @@ const Detail = () => {
     fetchAPI();
   }, []);
 
+  const handleDecr = () => {
+    setForm({
+      ...form,
+      quantity: form.quantity - 1,
+    });
+  };
+
+  const handleIncr = () => {
+    setForm({
+      ...form,
+      quantity: form.quantity + 1,
+    });
+  };
+
   const handleAddCart = () => {
     dispatch(insertCart(form, token));
   };
@@ -47,19 +61,41 @@ const Detail = () => {
     <Fragment>
       <Navbar />
       <main className={styles.main}>
-        <h1>Product Detail Page : {id}</h1>
-        <p>{detail?.title}</p>
-        <p>{detail?.description}</p>
-        <p>{detail?.stock}</p>
-        <p>{IDR.format(detail?.price)}</p>
-        <input
-          type="number"
-          value={form.quantity}
-          min={1}
-          max={detail?.stock}
-          onChange={(e) => setForm({ ...form, quantity: e.target.value })}
-        />
-        <button onClick={handleAddCart}>Buy?</button>
+        <h2 className={styles.header}>Home / {detail?.title}</h2>
+
+        <hr />
+
+        <div className={styles.product}>
+          <img src={detail?.photo} alt={detail?.title} />
+          <div className={styles["product-detail"]}>
+            <h1>{detail?.title}</h1>
+            <h2>{IDR.format(detail?.price)}</h2>
+            <p>{detail?.description}</p>
+            <div className={styles["product-action"]}>
+              <div>
+                <button
+                  className={styles.minus}
+                  onClick={handleDecr}
+                  disabled={form.quantity === 1}
+                >
+                  &#x2212;
+                </button>
+                <span>{form.quantity}</span>
+                <button
+                  className={styles.minus}
+                  onClick={handleIncr}
+                  disabled={form.quantity === detail?.stock}
+                >
+                  &#x002B;
+                </button>
+              </div>
+              <span>(Stock : {detail?.stock})</span>
+            </div>
+            <button className={styles["cart-btn"]} onClick={handleAddCart}>
+              Add to Cart
+            </button>
+          </div>
+        </div>
       </main>
     </Fragment>
   );
