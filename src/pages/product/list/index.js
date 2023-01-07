@@ -1,23 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../../components/navbar";
 
 import styles from "./list.module.css";
 import { useNavigate } from "react-router";
-import { getList } from "../../../redux/actions/product.action";
+import { getDetail, getList } from "../../../redux/actions/product.action";
 
 const List = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { list } = useSelector((state) => state.product);
+  const token = localStorage.getItem("token");
 
-  let IDR = new Intl.NumberFormat("en-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
-
+  // get data on load
   const fetchAPI = () => {
     dispatch(getList());
   };
@@ -26,6 +22,20 @@ const List = () => {
     fetchAPI();
   }, []);
 
+  const { list } = useSelector((state) => state.product);
+
+  // feature
+  const selectProduct = async (id) => {
+    await dispatch(getDetail(id, token));
+    navigate(`/product/${id}`);
+  };
+
+  // price formatting
+  let IDR = new Intl.NumberFormat("en-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
+
   return (
     <Fragment>
       <Navbar />
@@ -33,10 +43,17 @@ const List = () => {
         <div className={styles.header}>
           <h2>Product List</h2>
 
-          <div className={styles.searchbar}>
-            <input type="text" placeholder="Search product..." />
-            <button className={styles["search-btn"]}>Search</button>
-          </div>
+          {/* <div className={styles.searchbar}>
+            <input
+              type="text"
+              placeholder="Search product..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button type="button" className={styles["search-btn"]}>
+              Search
+            </button>
+          </div> */}
         </div>
 
         <hr />
@@ -65,13 +82,13 @@ const List = () => {
                   <img src={item?.photo} alt={item.title} />
                   <span>{item.title}</span>
                 </td>
-                <td>{item.stock} pcs</td>
+                <td>{item.stock < 1 ? "Out of stock" : `${item.stock} pcs`}</td>
                 <td>{IDR.format(item.price)}</td>
                 <td>
                   <button
                     type="button"
                     className={styles["detail-btn"]}
-                    onClick={() => navigate(`/product/${item.id}`)}
+                    onClick={() => selectProduct(item.id)}
                   >
                     See Detail
                   </button>

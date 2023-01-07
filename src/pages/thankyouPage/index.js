@@ -16,8 +16,7 @@ const ThankYouPage = () => {
   const uid = localStorage.getItem("uid");
   const token = localStorage.getItem("token");
 
-  const { cart } = useSelector((state) => state.cart);
-
+  // get data on load
   const fetchAPI = () => {
     dispatch(getCart(uid, token));
   };
@@ -25,7 +24,10 @@ const ThankYouPage = () => {
   useEffect(() => {
     fetchAPI();
   }, []);
+  
+  const { cart } = useSelector((state) => state.cart);
 
+  // update db after checkout
   const handleHistory = () => {
     cart?.map((item) => {
       return (
@@ -34,6 +36,8 @@ const ThankYouPage = () => {
           .post(`${process.env.REACT_APP_API_URL}/payment/history`, {
             uid,
             cid: item.id,
+            pid: item.pid,
+            quantity: item.quantity,
           })
           .then((res) => console.log(res))
           .catch((err) => console.log(err))
@@ -51,7 +55,9 @@ const ThankYouPage = () => {
       <h1>Thank you for your purchase!</h1>
       <div>
         <button onClick={() => navigate("/history")}>See your history</button>
-        <button onClick={() => navigate("/product")}>Buy another product</button>
+        <button onClick={() => navigate("/product")}>
+          Buy another product
+        </button>
       </div>
     </main>
   );

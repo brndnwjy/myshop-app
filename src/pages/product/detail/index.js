@@ -1,24 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import Navbar from "../../../components/navbar";
+import { useNavigate } from "react-router-dom";
 import { insertCart } from "../../../redux/actions/cart.action";
-import { getDetail } from "../../../redux/actions/product.action";
 
+// component
+import Navbar from "../../../components/navbar";
+
+// style
 import styles from "./detail.module.css";
 
 const Detail = () => {
   const dispatch = useDispatch();
-
-  const { id } = useParams();
-
-  const { detail } = useSelector((state) => state.product);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const uid = localStorage.getItem("uid");
 
+  const { detail } = useSelector((state) => state.product);
+
+  // insert form
   const [form, setForm] = useState({
+    pid: detail?.id,
     uid: uid,
     title: detail?.title,
     price: parseInt(detail?.price),
@@ -27,19 +30,7 @@ const Detail = () => {
     photo: detail?.photo,
   });
 
-  let IDR = new Intl.NumberFormat("en-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
-
-  const fetchAPI = () => {
-    dispatch(getDetail(id, token));
-  };
-
-  useEffect(() => {
-    fetchAPI();
-  }, []);
-
+  // feature
   const handleDecr = () => {
     setForm({
       ...form,
@@ -55,8 +46,14 @@ const Detail = () => {
   };
 
   const handleAddCart = () => {
-    dispatch(insertCart(form, token));
+    dispatch(insertCart(form, navigate, token));
   };
+
+  // price formatting
+  let IDR = new Intl.NumberFormat("en-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
 
   return (
     <Fragment>
@@ -85,16 +82,24 @@ const Detail = () => {
                 <button
                   className={styles.minus}
                   onClick={handleIncr}
-                  disabled={form.quantity === detail?.stock}
+                  disabled={
+                    form.quantity === detail?.stock || detail?.stock < 1
+                  }
                 >
                   &#x002B;
                 </button>
               </div>
               <span>(Stock : {detail?.stock})</span>
             </div>
-            <button className={styles["cart-btn"]} onClick={handleAddCart}>
-              Add to Cart
-            </button>
+            {detail?.stock < 1 ? (
+              <h4 className={styles.unavailable}>
+                Product currently unavailable
+              </h4>
+            ) : (
+              <button className={styles["cart-btn"]} onClick={handleAddCart}>
+                Add to Cart
+              </button>
+            )}
           </div>
         </div>
       </main>

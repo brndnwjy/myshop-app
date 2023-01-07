@@ -1,5 +1,6 @@
 import React from "react";
 
+// style
 import styles from "./productCard.module.css";
 
 const ProductCard = ({ photo, title, quantity, total }) => {

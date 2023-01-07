@@ -5,10 +5,13 @@ import {
   loginWithGoogle,
   registerWithEmail,
 } from "../../../redux/actions/auth.action";
+
+// asset
 import logo from "../../../assets/myshop-logo.png";
 import google from "../../../assets/google.png";
 import banner from "../../../assets/register-banner.png";
 
+// style
 import styles from "../auth.module.css";
 
 const Register = () => {

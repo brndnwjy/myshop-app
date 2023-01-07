@@ -45,20 +45,23 @@ export const getCart = (uid, token) => async (dispatch) => {
   }
 };
 
-export const insertCart = (form, token) => async (dispatch) => {
+export const insertCart = (form, navigate, token) => async (dispatch) => {
   try {
     dispatch({ type: INSERT_CART_PENDING });
     await axios.post(`${process.env.REACT_APP_API_URL}/cart`, form, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    swal({
+    await swal({
       title: "Added to cart",
       text: `Product successfully added to cart`,
-      timer: 1000,
+      timer: 1500,
       icon: "success",
+      buttons: false,
     });
     dispatch({ type: INSERT_CART_SUCCESS });
+
+    navigate("/cart");
   } catch (err) {
     const errorCode = err.code;
     const errorMessage = err.message;
@@ -93,7 +96,7 @@ export const removeCart = (id, uid, token) => async (dispatch) => {
           title: "Item removed",
           text: `Item successfully removed from your card`,
           icon: "success",
-          timer: 1800,
+          timer: 1500,
           buttons: false,
         });
       }

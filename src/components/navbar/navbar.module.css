@@ -7,6 +7,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: #fefefe;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .navbar > img {
@@ -16,7 +17,7 @@
 }
 
 .btn-group {
-  width: 115px;
+  width: 11%;
   display: flex;
   align-items: center;
   justify-content: space-between;

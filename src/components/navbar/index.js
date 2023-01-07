@@ -4,22 +4,26 @@ import { useNavigate } from "react-router-dom";
 import ClickAwayListener from "react-click-away-listener";
 import { logout } from "../../redux/actions/auth.action";
 
+// asset
 import logo from "../../assets/myshop-logo.png";
 import cart from "../../assets/cart.png";
 import user from "../../assets/user.png";
 
+// style
 import styles from "./navbar.module.css";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const { name } = JSON.parse(localStorage.getItem("user"));
+  
   const [popup, setPopup] = useState(false);
-
+  
   const handleLogout = () => {
     dispatch(logout(navigate));
   };
 
-  const { name } = JSON.parse(localStorage.getItem("user"));
 
   return (
     <nav className={styles.navbar}>

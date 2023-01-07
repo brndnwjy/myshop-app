@@ -2,48 +2,38 @@
 import axios from "axios";
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../components/navbar";
 import { getCart, removeCart } from "../../redux/actions/cart.action";
+
+// component
+import Navbar from "../../components/navbar";
+
+// asset
 import trashcan from "../../assets/trash.png";
 
+// style
 import styles from "./cart.module.css";
 
 const Cart = () => {
   const dispatch = useDispatch();
 
-  const { cart } = useSelector((state) => state.cart);
-
-  const token = localStorage.getItem("token");
   const uid = localStorage.getItem("uid");
-
+  const token = localStorage.getItem("token");
+  
+  // get data on load
   const fetchAPI = () => {
     dispatch(getCart(uid, token));
   };
-
+  
   useEffect(() => {
     fetchAPI();
   }, []);
+  
+  const { cart } = useSelector((state) => state.cart);
 
+  // features
   const removeItem = (id) => {
     dispatch(removeCart(id, uid, token));
   };
-
-  let IDR = new Intl.NumberFormat("en-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
-
-  let total = 0;
-  let sum = 0;
-
-  if (cart) {
-    for (let item of cart) {
-      if (item.status === 0) {
-        total += 1;
-        sum += item.price * item.quantity;
-      }
-    }
-  }
 
   const handleCheckout = () => {
     axios
@@ -57,6 +47,25 @@ const Cart = () => {
         console.log(err.message);
       });
   };
+
+  // price formatting
+  let IDR = new Intl.NumberFormat("en-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
+
+  // calculating total
+  let total = 0;
+  let sum = 0;
+
+  if (cart) {
+    for (let item of cart) {
+      if (item.status === 0) {
+        total += 1;
+        sum += item.price * item.quantity;
+      }
+    }
+  }
 
   return (
     <Fragment>
@@ -76,9 +85,7 @@ const Cart = () => {
                       <img src={item.photo} alt={item.title} />
                       <div>
                         <div>
-                          <h2>
-                            {item.title}
-                          </h2>
+                          <h2>{item.title}</h2>
                           <h2>{IDR.format(item.price)}</h2>
                         </div>
                         <button
